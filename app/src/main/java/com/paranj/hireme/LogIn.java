@@ -1,6 +1,7 @@
 package com.paranj.hireme;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -17,68 +18,72 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+public class LogIn extends AppCompatActivity implements View.OnClickListener{
 
-public class Main2Activity extends AppCompatActivity implements View.OnClickListener {
-
-    private Button registerButton;
+    private Button loginButton;
     private EditText editTextEmail;
     private EditText editTextPassword;
-    private TextView signin;
+    private TextView forgotPassword;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_log_in);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        registerButton = (Button)findViewById(R.id.registerButton);
+        loginButton = (Button)findViewById(R.id.registerButton);
         editTextEmail = (EditText)findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-        signin = (TextView)findViewById(R.id.loginText);
+        forgotPassword = (TextView)findViewById(R.id.forgotPassword);
 
-        registerButton.setOnClickListener(this);
-        signin.setOnClickListener(this);
-
+        loginButton.setOnClickListener(this);
+        forgotPassword.setOnClickListener(this);
     }
 
-    private void registerUser(){
-       String email = editTextEmail.getText().toString().trim();
-       String password = editTextPassword.getText().toString().trim();
+    public void loginUser(){
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
 
-       if(TextUtils.isEmpty(email)){
-           //Make Toast
-           return;
-       }
+        if(TextUtils.isEmpty(email)){
+            //Make Toast
+            return;
+        }
 
         if(TextUtils.isEmpty(password)){
             //Make Toast
             return;
         }
 
-        progressDialog.setMessage("Registering User, Please Wait....");
+        progressDialog.setMessage("Loggin In, Please Wait....");
         progressDialog.show();
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("Message", "createUserWithEmail:success");
-                            Toast.makeText(Main2Activity.this, "Authentication Success.",
+                            Log.d("Message: ", "signInWithEmail:success");
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            Toast.makeText(LogIn.this, "Authentication Success.",
                                     Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
 
+                            Intent intent = new Intent(LogIn.this, MainActivity.class);
+                            startActivity(intent);
+
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("Message", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(Main2Activity.this, "Authentication failed.",
+                            Log.w("Message: ", "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LogIn.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             progressDialog.cancel();
                         }
@@ -86,15 +91,16 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                         // ...
                     }
                 });
+
     }
 
     @Override
     public void onClick(View view) {
-        if(view == registerButton){
-            registerUser();
+        if(view == loginButton){
+            loginUser();
         }
-        else if(view == signin){
-            //will open login activity
+        else if(view == forgotPassword){
+            Intent intent = new Intent();
         }
     }
 }
