@@ -6,7 +6,55 @@ package com.paranj.hireme;
 
 public class Users {
 
-    private String uId, first, last, phoneNumber, email, countryCode;
+    private String uId;
+    private String first;
+    private String last;
+    private String phoneNumber;
+    private String email;
+    private String countryCode;
+    private String Address1;
+    private String Address2;
+    private String zip;
+    private String city;
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+
+    public String getAddress1() {
+        return Address1;
+    }
+
+    public void setAddress1(String address1) {
+        Address1 = address1;
+    }
+
+    public String getAddress2() {
+        return Address2;
+    }
+
+    public void setAddress2(String address2) {
+        Address2 = address2;
+    }
+
+
+    public Users(){
+
+    }
+
 
     public Users(String uId, String first, String last, String phoneNumber, String email, String countryCode) {
         this.uId = uId;

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@drawable/background2"
     tools:context="com.paranj.hireme.LogIn"
     tools:showIn="@layout/activity_log_in">
 
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="133dp"
         android:hint="Email" />
 
     <EditText
@@ -46,6 +47,17 @@
         android:layout_marginTop="19dp"
         android:textColor="@color/colorPrimary"
         android:text="Forgot Password?" />
+
+    <TextView
+        android:id="@+id/signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/forgotPassword"
+        android:layout_alignStart="@+id/forgotPassword"
+        android:layout_below="@+id/forgotPassword"
+        android:layout_marginTop="33dp"
+        android:text="Not a user? SignUP"
+        android:textColor="@color/colorPrimary" />
 
 
 </RelativeLayout>
