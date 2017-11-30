@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
-        <activity android:name=".LogIn">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +32,12 @@
             android:name=".Register"
             android:label=".Register"
             android:theme="@style/MyTheme" />
-        <activity android:name=".Profile"></activity>
+        <activity android:name=".Profile" />
+        <activity
+            android:name=".LogIn"
+            android:label="@string/title_activity_login"
+            android:theme="@style/MyTheme" />
+        <activity android:name=".AllMessages"></activity>
     </application>
 
 </manifest>

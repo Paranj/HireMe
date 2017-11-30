@@ -8,7 +8,7 @@
     android:background="@color/mainBackGroundColor"
     tools:context="com.paranj.hireme.MainActivity">
 
-    <LinearLayout
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp"
@@ -20,9 +20,12 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:columnWidth="120dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth">
 
-    </LinearLayout>
+    </GridView>
 
     <TextView
         android:id="@+id/textView3"

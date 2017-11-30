@@ -3,10 +3,7 @@ package com.paranj.hireme;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import android.util.*;
 import android.content.*;
 import com.google.firebase.FirebaseApp;
@@ -17,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Profile extends AppCompatActivity implements View.OnClickListener{
+public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mRef;
@@ -35,7 +32,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
     private TextView lastName;
     private TextView zip;
     private TextView city;
-    private TextView state;
+    private Spinner mySpinner;
+    private TextView textViewState;
 
     private EditText address1_1;
     private EditText address2_1;
@@ -48,7 +46,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-
+        textViewState = findViewById(R.id.states);
         FirebaseApp.initializeApp(this);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mRef = mFirebaseDatabase.getReference();
@@ -62,6 +60,31 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
         city_1 = findViewById(R.id.editTextCity);
         city_1.setVisibility(View.INVISIBLE);
         logOut = findViewById(R.id.logOut);
+        mySpinner = findViewById(R.id.mySpinner);
+        mySpinner.setVisibility(View.INVISIBLE);
+
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.states, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(adapter);
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                try {
+                    textViewState.setText(adapterView.getItemAtPosition(i).toString());
+                    user.setState(adapterView.getItemAtPosition(i).toString());
+                    mRef.child("Users").child(firebaseAuth.getCurrentUser().getUid()).setValue(user);
+                } catch (NullPointerException w){
+                    w.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         logOut.setOnClickListener(this);
         home = findViewById(R.id.homeButton);
@@ -82,8 +105,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
 
         addressLine1.setOnClickListener(this);
         addressLine2.setOnClickListener(this);
+        textViewEmail.setOnClickListener(this);
         zip.setOnClickListener(this);
         city.setOnClickListener(this);
+        textViewState.setOnClickListener(this);
         backGroundLayout.setOnClickListener(this);
 
 
@@ -110,6 +135,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
                 if(user.getCity() != null){
                     city.setText(user.getCity());
                 }
+                if(user.getState() != null){
+                    textViewState.setText(user.getState());
+                }
+
             }
 
             @Override
@@ -148,10 +177,12 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
             address2_1.setVisibility(View.INVISIBLE);
             zip_1.setVisibility(View.INVISIBLE);
             city_1.setVisibility(View.INVISIBLE);
+            mySpinner.setVisibility(View.INVISIBLE);
 
             addressLine2.setVisibility(View.VISIBLE);
             zip.setVisibility(View.VISIBLE);
             city.setVisibility(View.VISIBLE);
+            textViewState.setVisibility(View.VISIBLE);
 
         }
         else if(view == addressLine2){
@@ -162,10 +193,12 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
             addressLine1.setVisibility(View.VISIBLE);
             zip.setVisibility(View.VISIBLE);
             city.setVisibility(View.VISIBLE);
+            textViewState.setVisibility(View.VISIBLE);
 
             address1_1.setVisibility(View.INVISIBLE);
             zip_1.setVisibility(View.INVISIBLE);
             city_1.setVisibility(View.INVISIBLE);
+            mySpinner.setVisibility(View.INVISIBLE);
         }
 
         else if(view == zip){
@@ -175,10 +208,12 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
             addressLine1.setVisibility(View.VISIBLE);
             addressLine2.setVisibility(View.VISIBLE);
             city.setVisibility(View.VISIBLE);
+            textViewState.setVisibility(View.VISIBLE);
 
             address1_1.setVisibility(View.INVISIBLE);
             address2_1.setVisibility(View.INVISIBLE);
             city_1.setVisibility(View.INVISIBLE);
+            mySpinner.setVisibility(View.INVISIBLE);
 
         }
         else if(view == city){
@@ -188,11 +223,30 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
             addressLine1.setVisibility(View.VISIBLE);
             addressLine2.setVisibility(View.VISIBLE);
             zip.setVisibility(View.VISIBLE);
+            textViewState.setVisibility(View.VISIBLE);
 
             address1_1.setVisibility(View.INVISIBLE);
             address2_1.setVisibility(View.INVISIBLE);
             zip_1.setVisibility(View.INVISIBLE);
+            mySpinner.setVisibility(View.INVISIBLE);
 
+
+        }
+
+        else if(view == textViewState){
+            textViewState.setVisibility(View.INVISIBLE);
+            mySpinner.setVisibility(View.VISIBLE);
+            Log.e("Spinner be active","");
+
+            addressLine1.setVisibility(View.VISIBLE);
+            addressLine2.setVisibility(View.VISIBLE);
+            zip.setVisibility(View.VISIBLE);
+            city.setVisibility(View.VISIBLE);
+
+            address1_1.setVisibility(View.INVISIBLE);
+            address2_1.setVisibility(View.INVISIBLE);
+            zip_1.setVisibility(View.INVISIBLE);
+            city_1.setVisibility(View.INVISIBLE);
 
         }
 
@@ -205,6 +259,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
             zip.setVisibility(View.VISIBLE);
             city_1.setVisibility(View.INVISIBLE);
             city.setVisibility(View.VISIBLE);
+            mySpinner.setVisibility(View.INVISIBLE);
+            textViewState.setVisibility(View.VISIBLE);
 
         }
         if(!address1_1.getText().toString().matches("")){

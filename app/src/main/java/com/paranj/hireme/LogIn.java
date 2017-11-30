@@ -42,13 +42,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener{
         editTextPassword = (EditText) findViewById(R.id.password);
         forgotPassword = (TextView)findViewById(R.id.forgotPassword);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("userInfo", MODE_PRIVATE);
-        String email = sharedPreferences.getString("userEmail", "");
-        if(!email.matches("")){
-            Log.e("Trying ", "" + email + " and " + sharedPreferences.getString("password", ""));
-            loginUser(email, sharedPreferences.getString("password", ""));
-        }
-
         loginButton.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
         register.setOnClickListener(this);
@@ -116,5 +109,10 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener{
             Intent intent = new Intent(LogIn.this, Register.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 }

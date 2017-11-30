@@ -17,6 +17,16 @@ public class Users {
     private String zip;
     private String city;
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    private String state;
+
     public String getZip() {
         return zip;
     }

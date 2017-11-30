@@ -231,14 +231,24 @@
                 android:textColor="@color/colorPrimary"
                 android:text="Log Out" />
 
-            <!--<Spinner-->
-                <!--android:id="@+id/spinner2"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignTop="@+id/city"-->
-                <!--android:layout_toEndOf="@+id/lastName"-->
-                <!--android:layout_toRightOf="@+id/lastName"-->
-                <!--android:ems="10" />-->
+            <TextView
+                android:id="@+id/states"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/city"
+                android:layout_toEndOf="@+id/lastName"
+                android:layout_toRightOf="@+id/lastName"
+                android:hint="Select State" />
+
+
+            <Spinner
+                android:id="@+id/mySpinner"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/city"
+                android:layout_toEndOf="@+id/lastName"
+                android:layout_toRightOf="@+id/lastName"
+                android:ems="10" />
 
 
         </RelativeLayout>
