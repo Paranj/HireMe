@@ -2,7 +2,6 @@ package com.paranj.hireme;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +16,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.*;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,14 +50,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        registerButton = findViewById(R.id.registerButton);
-        editTextEmail = findViewById(R.id.email);
-        editTextPassword = findViewById(R.id.password);
-        signIn = findViewById(R.id.forgotPassword);
-        firstName = findViewById(R.id.first);
-        lastName = findViewById(R.id.last);
-        countCode = findViewById(R.id.countryCode);
-        phoNumber = findViewById(R.id.phoneNumber);
+        registerButton = (Button)findViewById(R.id.registerButton);
+        editTextEmail = (EditText)findViewById(R.id.email);
+        editTextPassword = (EditText)findViewById(R.id.password);
+        signIn = (TextView) findViewById(R.id.forgotPassword);
+        firstName = (EditText)findViewById(R.id.first);
+        lastName = (EditText)findViewById(R.id.last);
+        countCode = (EditText)findViewById(R.id.countryCode);
+        phoNumber = (EditText)findViewById(R.id.phoneNumber);
 
         registerButton.setOnClickListener(this);
         signIn.setOnClickListener(this);
@@ -81,24 +78,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                TextUtils.isEmpty(last) || TextUtils.isEmpty(phoneNumber)){
 
            Toast.makeText(Register.this, "Please fill all the required fields", Toast.LENGTH_SHORT).show();
-           if(TextUtils.isEmpty(email)){
-               editTextEmail.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-
-           }
-
-           if(TextUtils.isEmpty(password)){
-                editTextPassword.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-           }
-           if(TextUtils.isEmpty(first)){
-                firstName.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-           }
-           if(TextUtils.isEmpty(last)){
-               lastName.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-           }
-           if(TextUtils.isEmpty(phoneNumber)){
-                phoNumber.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-           }
-
 
            return;
        }
@@ -144,31 +123,22 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             loginUser(user.getEmail(), password);
 
                         } else {
-                            if(firebaseAuth.getCurrentUser().toString().contains("FirebaseAuthInvalidCredentialsException")){
-                                Log.e("Message", "Invalid Email Format");
-                                Toast.makeText(Register.this, "Invaild Email. Please Try Again",
-                                        Toast.LENGTH_SHORT).show();
-                                progressDialog.cancel();
+
+                            String error = "";
+
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidUserException e) {
+                                error = "Invalid Email!";
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                error = "Invalid Credentials!";
+                            } catch (Exception e) {
+                                error = "Default error!";
+                                e.printStackTrace();
                             }
-                            else if(firebaseAuth.getCurrentUser().toString().contains("FirebaseAuthUserCollisionException")){
-                                Log.e("Message", "Failed" + firebaseAuth.getCurrentUser().toString(), task.getException());
-                                Toast.makeText(Register.this, "Email already exists. Please SignIn",
-                                        Toast.LENGTH_SHORT).show();
-                                progressDialog.cancel();
-                            }
-                            else if(firebaseAuth.getCurrentUser().toString().contains("FirebaseAuthWeakPasswordException")){
-                                // If sign in fails, display a message to the user.
-                                Log.e("Message", "Failed" + firebaseAuth.getCurrentUser().toString(), task.getException());
-                                Toast.makeText(Register.this, "Password should be at least 6 characters",
-                                        Toast.LENGTH_SHORT).show();
-                                progressDialog.cancel();
-                            }
-                            else{
-                                Log.e("Message", "Failed", task.getException());
-                                Toast.makeText(Register.this, "Authentication Failed. Please try again.",
-                                        Toast.LENGTH_SHORT).show();
-                                progressDialog.cancel();
-                            }
+
+                            progressDialog.cancel();
+                            Toast.makeText(Register.this, error, Toast.LENGTH_LONG).show();
 
                         }
 
@@ -190,8 +160,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             // Sign in success, update UI with the signed-in user's information
 
                             progressDialog.cancel();
-                            saveLogInInfo(email, password);
                             Intent intent = new Intent(Register.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
 
                         } else {
@@ -206,14 +176,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-    private void saveLogInInfo(String email, String password) {
-        SharedPreferences userInfo = getSharedPreferences("userInfo", MODE_PRIVATE );
-        SharedPreferences.Editor editor = userInfo.edit();
-
-        editor.putString("userEmail", email);
-        editor.putString("password", password);
-        editor.apply();
-    }
 
     private void addEventFirebaseListener() {
 
@@ -221,12 +183,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                // String value = dataSnapshot.getValue(String.class);
-                Log.d("Don't know whats this", "Value is: ");
+               // Log.d("Don't know whats this", "Value is: ");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("Problemo", "Failed to read value.");
+                //Log.e("Problemo", "Failed to read value.");
             }
         });
 

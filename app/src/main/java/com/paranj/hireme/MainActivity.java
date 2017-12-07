@@ -10,15 +10,19 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import com.google.firebase.auth.*;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        mAuth = FirebaseAuth.getInstance();
 
         GridView gridView = findViewById(R.id.gridLayout);
         gridView.setAdapter(new GridAdapter(MainActivity.this));
@@ -33,22 +37,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton allUsers = findViewById(R.id.allAddsButton);
+        allUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent coupon = new Intent(MainActivity.this, UsersActivity.class);
+                startActivity(coupon);
+            }
+        });
+
 
 
     }
 
     @Override
-    public void onBackPressed(){
-        super.onBackPressed();
+    public void onStart(){
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser == null){
+            Intent coupon = new Intent(MainActivity.this, LogIn.class);
+            startActivity(coupon);
+            finish();
+        }
+
     }
+
 
 }
 
 class GridAdapter extends BaseAdapter{
-    Context context;
-    String strings = "123456789";
+    private Context context;
+    private String strings = "123456789";
 
-    public GridAdapter (Context c){
+    GridAdapter(Context c){
        context = c;
     }
 

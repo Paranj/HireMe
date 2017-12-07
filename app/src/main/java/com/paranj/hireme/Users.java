@@ -17,6 +17,20 @@ public class Users {
     private String zip;
     private String city;
 
+    public String getProImgUrl() {
+        return proImgUrl;
+    }
+
+    public String getDisplayName(){
+        return (getFirst() + " " + getLast());
+    }
+
+    public void setProImgUrl(String proImgUrl) {
+        this.proImgUrl = proImgUrl;
+    }
+
+    private String proImgUrl;
+
     public String getState() {
         return state;
     }

@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     tools:context="com.paranj.hireme.Profile">
 
     <ImageButton
         android:id="@+id/postAddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/mainBackGroundColor"
+        android:background="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_camera"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -27,7 +27,7 @@
         android:layout_alignTop="@+id/postAddButton"
         android:layout_marginLeft="17dp"
         android:layout_marginStart="17dp"
-        android:background="@color/mainBackGroundColor"
+        android:background="@color/colorPrimary"
         app:srcCompat="@android:drawable/btn_radio" />
 
     <ImageButton
@@ -39,7 +39,7 @@
         android:layout_marginRight="43dp"
         android:layout_toLeftOf="@+id/postAddButton"
         android:layout_toStartOf="@+id/postAddButton"
-        android:background="@color/mainBackGroundColor"
+        android:background="@color/colorPrimary"
         app:srcCompat="@android:drawable/sym_action_chat" />
 
     <ImageButton
@@ -51,7 +51,7 @@
         android:layout_marginStart="52dp"
         android:layout_toEndOf="@+id/postAddButton"
         android:layout_toRightOf="@+id/postAddButton"
-        android:background="@color/mainBackGroundColor"
+        android:background="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageButton
@@ -63,7 +63,7 @@
         android:layout_alignTop="@+id/allAddsButton"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
-        android:background="@color/mainBackGroundColor"
+        android:background="@color/colorPrimary"
         app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
 
@@ -76,8 +76,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
-                android:layout_width="46dp"
-                android:layout_height="46dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="19dp"
@@ -86,7 +86,7 @@
                 app:civ_border_width="2dp" />
 
             <TextView
-                android:id="@+id/editImage"
+                android:id="@+id/edit_Image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -99,12 +99,12 @@
                 android:id="@+id/firstName"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editImage"
+                android:layout_below="@+id/edit_Image"
                 android:layout_marginEnd="44dp"
                 android:layout_marginRight="44dp"
                 android:layout_marginTop="22dp"
-                android:layout_toLeftOf="@+id/editImage"
-                android:layout_toStartOf="@+id/editImage" />
+                android:layout_toLeftOf="@+id/edit_Image"
+                android:layout_toStartOf="@+id/edit_Image" />
 
             <TextView
                 android:id="@+id/lastName"
@@ -112,8 +112,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/firstName"
                 android:layout_alignBottom="@+id/firstName"
-                android:layout_alignEnd="@+id/editImage"
-                android:layout_alignRight="@+id/editImage" />
+                android:layout_alignEnd="@+id/edit_Image"
+                android:layout_alignRight="@+id/edit_Image" />
 
             <TextView
                 android:id="@+id/phoneNumber"

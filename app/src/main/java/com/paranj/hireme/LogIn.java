@@ -2,7 +2,6 @@ package com.paranj.hireme;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -35,7 +34,7 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_log_in);
 
         progressDialog = new ProgressDialog(this);
-        register = findViewById(R.id.signUp);
+        register = (TextView)findViewById(R.id.signUp);
         firebaseAuth = FirebaseAuth.getInstance();
         loginButton = (Button)findViewById(R.id.registerButton);
         editTextEmail = (EditText)findViewById(R.id.email);
@@ -50,12 +49,14 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener{
     public void loginUser(final String email, final String password){
 
         if(TextUtils.isEmpty(email)){
-            //Make Toast
+            Toast.makeText(LogIn.this, "Please enter your email",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
         if(TextUtils.isEmpty(password)){
-            //Make Toast
+            Toast.makeText(LogIn.this, "Please enter your password",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -70,9 +71,11 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener{
                             // Sign in success, update UI with the signed-in user's information
 
                             progressDialog.cancel();
-                                saveLogInInfo(email, password);
+
                             Intent intent = new Intent(LogIn.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
+                            finish();
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -86,15 +89,6 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener{
                     }
                 });
 
-    }
-
-    private void saveLogInInfo(String email, String password) {
-        SharedPreferences userInfo = getSharedPreferences("userInfo", MODE_PRIVATE );
-        SharedPreferences.Editor editor = userInfo.edit();
-
-        editor.putString("userEmail", email);
-        editor.putString("password", password);
-        editor.apply();
     }
 
     @Override
